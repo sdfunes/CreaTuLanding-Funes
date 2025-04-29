@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 function CarShop() {
   const [cart, setCart] = useState([]);
   const remes = [
-    { id: 1, name: 'Remera 1', price: '$20,000', image: 'car-a.jpg' },
-    { id: 2, name: 'Remera 2', price: '$25,000', image: 'car-b.jpg' },
-    { id: 3, name: 'Remera 3', price: '$30,000', image: 'car-c.jpg' },
+    { id: 1, name: 'Remera 1', price: '$20,000', image: 'src/assets/img/reme1.jpg' },
+    { id: 2, name: 'Remera 2', price: '$25,000', image: 'src/assets/img/reme2.jpg' },
+    { id: 3, name: 'Remera 3', price: '$30,000', image: 'src/assets/img/reme3.jpg' },
   ];
 
   const addToCart = (item) => {
