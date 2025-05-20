@@ -22,6 +22,16 @@ function Detail() {
           />
           <h3 className='text-lg font-bold'>{detail.title}</h3>
           <p className='text-gray-600'>{detail.price}</p>
+          <div className='mt-4 space-y-2'>
+            <Button
+              onClick={() => window.history.back()}
+              className='w-full'
+              variant={undefined}
+              size={undefined}
+            >
+              Volver
+            </Button>
+          </div>
           {/* <Button
             className='mt-2 px-4 py-2 bg-blue-500 text-black rounded'
             onClick={() => alert(`${detail.name} agregado al carrito!`)}

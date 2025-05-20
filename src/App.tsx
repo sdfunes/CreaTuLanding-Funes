@@ -12,6 +12,7 @@ function App() {
       <Routes>
         <Route path='/' element={<CarShop />} />
         <Route path='/about' element={<div>About</div>} />
+        <Route path='/contact' element={<div>Contact</div>} />
         <Route path='/details/:id' element={<Detail />} />
         <Route path='*' element={<NotFoundComponent />} />
       </Routes>

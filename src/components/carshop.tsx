@@ -15,7 +15,7 @@ function CarShop() {
 
   const addToCart = (item) => {
     setCart((prevCart) => [...prevCart, item]);
-    alert(`${item.name} agregado al carrito!`);
+    alert(`${item.title} agregado al carrito!`);
   };
 
   return (
