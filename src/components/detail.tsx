@@ -22,6 +22,9 @@ function Detail() {
           />
           <h3 className='text-lg font-bold'>{detail.title}</h3>
           <p className='text-gray-600'>{detail.price}</p>
+          <p className='text-lg'>{detail.category}</p>
+          <p className='text-gray-600 mt-5'>{detail.description}</p>
+
           <div className='mt-4 space-y-2'>
             <Button
               onClick={() => window.history.back()}
