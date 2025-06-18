@@ -1,10 +1,18 @@
 import { useState, useEffect } from 'react';
-import { getRemeras } from '../lib/async.js';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { Link } from 'react-router-dom';
 
 function CarShop() {
   const [cart, setCart] = useState([]);
   const [remes, setRemes] = useState([]);
+  const db = getFirestore();
+  const itemsCollectionRef = collection(db, 'products');
+
+  const getRemeras = async () => {
+    const querySnapshot = await getDocs(itemsCollectionRef);
+    return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  };
+  //const q = query(itemsCollectionRef, where('price', '>', 100));
   useEffect(() => {
     const fetchRemes = async () => {
       const data = await getRemeras();
@@ -25,12 +33,12 @@ function CarShop() {
         {remes.map((rem) => (
           <div key={rem.id} className='border p-4 rounded shadow'>
             <img
-              src={rem.image}
+              src='/assets/img/reme1.jpg'
               alt={rem.title}
               className='w-full h-40 object-cover mb-2'
             />
             <h3 className='text-lg font-bold'>{rem.title}</h3>
-            <p className='text-gray-600'>{rem.price}</p>
+            <p className='text-gray-600'>${rem.price}</p>
             <button>
               <Link to={`/details/${rem.id}`}>Ver Detalle</Link>
             </button>

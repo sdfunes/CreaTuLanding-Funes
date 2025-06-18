@@ -2,12 +2,23 @@ import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getDetail } from '../lib/async.js';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
+
 function Detail() {
   const { id } = useParams();
   const [detail, setDetail] = useState<any>({});
   useEffect(() => {
-    getDetail(id).then((reme) => setDetail(reme));
+    const fetchDetail = async () => {
+      if (!id) return;
+      const db = getFirestore();
+      const productsCol = collection(db, 'products');
+      const snapshot = await getDocs(productsCol);
+      const product = snapshot.docs
+        .map((doc) => ({ id: doc.id, ...doc.data() }))
+        .find((item) => item.id === id);
+      setDetail(product || {});
+    };
+    fetchDetail();
   }, []);
 
   return (
@@ -16,7 +27,7 @@ function Detail() {
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
         <div key={detail.id} className='border p-4 rounded shadow'>
           <img
-            src={detail.image}
+            src='/assets/img/reme1.jpg'
             alt={detail.title}
             className='w-full h-40 object-cover mb-2'
           />
