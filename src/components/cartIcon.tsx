@@ -14,7 +14,7 @@ function CartIcon({ count, cartItems = [] }) {
   const [showCart, setShowCart] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const { clearCart } = useContext(cartContext);
+  const { clearCart, removeFromCart } = useContext(cartContext);
   const [orderId, setOrderId] = useState(null);
 
   const total = cartItems.reduce((acc, item) => acc + (item.price || 0), 0);
@@ -32,7 +32,10 @@ function CartIcon({ count, cartItems = [] }) {
       });
       setSuccess(true);
       setOrderId(docRef.id);
-      clearCart();
+      setTimeout(() => {
+        clearCart();
+        setSuccess(false);
+      }, 5000);
     } catch (error) {
       alert('Error al guardar la compra');
     } finally {
@@ -64,13 +67,43 @@ function CartIcon({ count, cartItems = [] }) {
             <form onSubmit={handleBuy}>
               <ul>
                 {cartItems.map((item, idx) => (
-                  <li key={idx} className='border-b py-1'>
+                  <li
+                    key={idx}
+                    className='border-b py-1 flex items-center gap-2'
+                  >
                     <img
                       src={item.image}
                       alt={item.title}
                       className='w-12 h-12 object-cover mb-2'
                     />
-                    {item.title} - {item.description} - ${item.price}
+                    <div className='flex-1'>
+                      {item.title} - {item.description} - ${item.price}
+                    </div>
+                    <Button
+                      type='button'
+                      className='ml-2 text-red-500'
+                      size='icon'
+                      variant='ghost'
+                      onClick={() => {
+                        removeFromCart(item.id);
+                      }}
+                      title='Eliminar'
+                    >
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        className='w-4 h-4'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        stroke='currentColor'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth={2}
+                          d='M6 18L18 6M6 6l12 12'
+                        />
+                      </svg>
+                    </Button>
                   </li>
                 ))}
               </ul>
@@ -83,6 +116,30 @@ function CartIcon({ count, cartItems = [] }) {
                 size={undefined}
               >
                 {loading ? 'Procesando...' : 'Comprar'}
+              </Button>
+              <Button
+                type='button'
+                className='w-full mt-2 bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center justify-center gap-2'
+                onClick={clearCart}
+                disabled={loading}
+                variant={undefined}
+                size={undefined}
+                title='Vaciar carrito'
+              >
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='w-4 h-4'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={2}
+                    d='M3 6h18M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2m2 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 6v6m4-6v6'
+                  />
+                </svg>
               </Button>
               {success && (
                 <div className='text-green-600 mt-2 text-sm'>
