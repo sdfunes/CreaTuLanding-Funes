@@ -6,28 +6,35 @@ import {
 } from '@/components/ui/navigation-menu';
 import { Button } from '@/components/ui/button';
 import CartIcon from '@/components/cartIcon';
+import { cartContext } from '../context/CartContext';
+import { useContext, useEffect, useState } from 'react';
 
 export default function Navbar() {
-  const cartItemCount = 3;
+  const { cart } = useContext(cartContext);
+  console.log('Cart items:', cart);
+  const cartItemCount = cart.reduce(
+    (acc, item) => acc + (item.quantity || 1),
+    0
+  );
   return (
     <nav className='w-full flex items-center justify-between p-4 shadow-md bg-white'>
       <div className='text-xl font-bold'>Remes</div>
-      <CartIcon count={cartItemCount} />
+      <CartIcon count={cartItemCount} cartItems={cart} />
       <NavigationMenu className={undefined}>
         <NavigationMenuList className={undefined}>
           <NavigationMenuItem className={undefined}>
             <NavigationMenuLink href='/' className={undefined}>
-              Home
+              Inicio
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem className={undefined}>
-            <NavigationMenuLink href='/about' className={undefined}>
-              About
+            <NavigationMenuLink href='/ayuda' className={undefined}>
+              Ayuda
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem className={undefined}>
-            <NavigationMenuLink href='/contact' className={undefined}>
-              Contact
+            <NavigationMenuLink href='/contacto' className={undefined}>
+              Contacto
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
